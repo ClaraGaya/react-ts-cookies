@@ -1,7 +1,7 @@
 import React, { useEffect, useState, MouseEvent } from 'react'
 import { useCookies } from 'react-cookie';
-import { DataGrid, GridApi, GridCellValue } from '@mui/x-data-grid';
-import { Button, IconButton } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
+import { IconButton } from '@mui/material';
 import { DeleteRounded } from '@mui/icons-material';
 
 
@@ -15,12 +15,9 @@ export const CookieDashboard = () => {
  
   Object.entries(cookies).map((cookie, i) => createData(i, cookie[0], cookie[0]) );
 
-
-
   useEffect(() => {
     const convertedObj =  Object.entries(cookies).map((cookie, i) => createData(i, cookie[0], cookie[1]) );
     setRows(convertedObj)
-    console.log('rows', convertedObj)
   }, [cookies]);
 
   const deleteCookie = (e: MouseEvent, params: any) => {
@@ -44,21 +41,19 @@ export const CookieDashboard = () => {
   ]
 
   return (
-    <>
-      <main>
-        <h2>Cookie Dashboard</h2>
-        <p>You can set and access cookies both via the server and the client.</p>
-        {rows.length > 0 && (
-          <div style={{ height: 400, width: '100%' }}>
-            <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-          />
-          </div>
-        )} 
-        </main>
-    </>
+    <main>
+      <h2>Cookie Dashboard</h2>
+      <p>You can set and access cookies both via the server and the client.</p>
+      {rows.length > 0 && (
+        <div style={{ height: 400, width: '100%' }}>
+          <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+        />
+        </div>
+      )} 
+    </main>
   )
 }
