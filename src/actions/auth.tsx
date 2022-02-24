@@ -1,4 +1,3 @@
-require('isomorphic-fetch');
 var axios = require("axios").default;
 const API = process.env.REACT_APP_API;
 const AUTH0_DOMAIN = process.env.REACT_APP_AUTH0_DOMAIN;
