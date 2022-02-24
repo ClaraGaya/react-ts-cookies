@@ -23,8 +23,6 @@ function App() {
   const getTheme = (mode: string) => {
     return mode === 'dark' ? darkTheme : lightTheme
   }
-
-  console.log('cookies.themeMode', cookies.themeMode)
   
   const theme = React.useMemo(() => getTheme(cookies.themeMode), [cookies.themeMode]);
   

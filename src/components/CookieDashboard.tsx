@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, MouseEvent } from 'react'
 import { useCookies } from 'react-cookie';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridApi, GridCellValue } from '@mui/x-data-grid';
+import { Button, IconButton } from '@mui/material';
+import { DeleteRounded } from '@mui/icons-material';
+
 
 export const CookieDashboard = () => {
   const [cookies, setCookie, removeCookie ] = useCookies();
@@ -15,24 +18,29 @@ export const CookieDashboard = () => {
 
 
   useEffect(() => {
-    const convertedObj =  Object.entries(cookies).map((cookie, i) => createData(i, cookie[0], cookie[0]) );
+    const convertedObj =  Object.entries(cookies).map((cookie, i) => createData(i, cookie[0], cookie[1]) );
     setRows(convertedObj)
     console.log('rows', convertedObj)
   }, [cookies]);
 
-  const handleDeleteRow = (rowId: any) => {
-    
+  const deleteCookie = (e: MouseEvent, params: any) => {
+    e.stopPropagation(); // don't select this row after clicking
+    const name = params.row.name
+    removeCookie(name);
   };
-
-  const handleUpdateRow = (rowId: any, value: string) => {
-    
-  };
-
 
   const columns = [
     { field: 'id', headerName: 'Id', width: 90 },
     { field: 'name', headerName: 'Name', width: 160 },
-    { field: 'value', headerName: 'Value', width: 160 }
+    { field: 'value', headerName: 'Value', width: 160 },
+    {
+      field: 'delete',
+      headerName: '',
+      sortable: false,
+      renderCell: (params: any) => {
+        return <IconButton onClick={(e: MouseEvent<HTMLButtonElement>) => deleteCookie(e, params)} color="primary" component="span"><DeleteRounded/></IconButton>
+      },
+    }
   ]
 
   return (
@@ -47,7 +55,6 @@ export const CookieDashboard = () => {
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
-            checkboxSelection
           />
           </div>
         )} 
